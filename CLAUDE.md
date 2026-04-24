@@ -53,11 +53,6 @@ anyone who finds medical jargon confusing.
 - Dosage rewritten as daily-life analogies ("take with breakfast")
 - Flesch-Kincaid score checked post-generation; if > 60 (too hard), Claude is called again
 
-### 3. Multilingual output
-- Input language auto-detected from label text or user input
-- Response generated in detected language (supports EN, ES, FR, ZH, HI, AR, PT, RU, DE, JA)
-- Language switcher on card — one tap re-renders in chosen language via a fresh API call
-
 ### 4. Color-coded warnings
 - Red banner: stop-and-seek-help conditions
 - Amber banner: "take with food / avoid alcohol" cautions
