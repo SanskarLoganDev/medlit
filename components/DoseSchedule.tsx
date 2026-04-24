@@ -1,6 +1,6 @@
 interface Props {
-  frequency: string
-  instructions: string
+  frequency: string | null
+  instructions: string | null
 }
 
 function parseTimes(frequency: string): { emoji: string; label: string }[] {
@@ -23,7 +23,7 @@ function parseTimes(frequency: string): { emoji: string; label: string }[] {
 }
 
 export default function DoseSchedule({ frequency, instructions }: Props) {
-  const times = parseTimes(frequency)
+  const times = parseTimes(frequency ?? '')
 
   return (
     <div className="space-y-3">
@@ -39,8 +39,8 @@ export default function DoseSchedule({ frequency, instructions }: Props) {
           </div>
         ))}
       </div>
-      <p className="text-sm text-gray-600">{frequency}</p>
-      <p className="text-sm text-gray-500">{instructions}</p>
+      {frequency && <p className="text-sm text-gray-600">{frequency}</p>}
+      {instructions && <p className="text-sm text-gray-500">{instructions}</p>}
     </div>
   )
 }

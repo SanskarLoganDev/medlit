@@ -29,29 +29,35 @@ export default function UploadZone({ onImage, loading }: Props) {
 
   return (
     <div
-      className={`border-2 border-dashed rounded-2xl p-10 text-center transition-colors ${
-        dragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-white'
+      className={`w-full border-2 border-dashed rounded-2xl py-16 px-8 text-center transition-all cursor-pointer ${
+        dragging
+          ? 'border-blue-500 bg-blue-50 scale-[1.01]'
+          : 'border-gray-300 bg-white hover:border-blue-300 hover:bg-gray-50'
       }`}
       onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
       onDragLeave={() => setDragging(false)}
       onDrop={(e) => { e.preventDefault(); setDragging(false); handleFiles(e.dataTransfer.files) }}
+      onClick={() => !loading && fileRef.current?.click()}
     >
-      <div className="space-y-4">
-        <div className="text-5xl">📋</div>
-        <p className="text-gray-600 font-medium">
-          Drag and drop a photo here, or choose one:
-        </p>
+      <div className="space-y-5">
+        <div className="text-6xl">📋</div>
+        <div>
+          <p className="text-gray-700 font-semibold text-lg">
+            Drag and drop a photo here
+          </p>
+          <p className="text-gray-400 text-sm mt-1">or use one of the options below</p>
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center" onClick={(e) => e.stopPropagation()}>
           <button
-            className="btn-primary flex items-center justify-center gap-2"
+            className="btn-primary flex items-center justify-center gap-2 text-base px-6 py-3"
             onClick={() => cameraRef.current?.click()}
             disabled={loading}
           >
             📷 Take Photo
           </button>
           <button
-            className="btn-secondary flex items-center justify-center gap-2"
+            className="btn-secondary flex items-center justify-center gap-2 text-base px-6 py-3"
             onClick={() => fileRef.current?.click()}
             disabled={loading}
           >
@@ -64,7 +70,6 @@ export default function UploadZone({ onImage, loading }: Props) {
         </p>
       </div>
 
-      {/* Camera input */}
       <input
         ref={cameraRef}
         type="file"
@@ -73,7 +78,6 @@ export default function UploadZone({ onImage, loading }: Props) {
         className="hidden"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      {/* File picker */}
       <input
         ref={fileRef}
         type="file"

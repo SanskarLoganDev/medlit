@@ -14,7 +14,6 @@ export default function HomePage() {
     setError(null)
 
     try {
-      // Pass 1: extract
       const extractRes = await fetch('/api/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,7 +32,6 @@ export default function HomePage() {
         return
       }
 
-      // Pass 2: explain
       const explainRes = await fetch('/api/explain', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +48,6 @@ export default function HomePage() {
         return
       }
 
-      // Store in sessionStorage and navigate to card
       sessionStorage.setItem('medCard', JSON.stringify(cardData))
       router.push('/card')
     } catch {
@@ -60,28 +57,53 @@ export default function HomePage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-[75vh] gap-8">
+      {/* Hero text */}
+      <div className="text-center space-y-3 max-w-2xl px-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
           Understand your prescription
         </h1>
-        <p className="text-gray-500 text-lg">
-          Take a photo of your prescription label — we'll explain it in plain, simple words.
+        <p className="text-gray-500 text-lg sm:text-xl">
+          Take a photo of your prescription label — we&apos;ll explain it in plain, simple words.
         </p>
       </div>
 
-      <UploadZone onImage={handleImage} loading={loading} />
+      {/* Upload zone — full width up to a generous max */}
+      <div className="w-full max-w-3xl px-4">
+        <UploadZone onImage={handleImage} loading={loading} />
+      </div>
 
+      {/* Error */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
-          {error}
+        <div className="w-full max-w-3xl px-4">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
+            {error}
+          </div>
         </div>
       )}
 
+      {/* Loading */}
       {loading && (
-        <div className="text-center text-gray-500 space-y-2">
-          <div className="spinner mx-auto" />
-          <p className="text-sm">Reading your prescription label…</p>
+        <div className="flex flex-col items-center gap-3 text-gray-500">
+          <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+          <p className="text-base">Reading your prescription label…</p>
+        </div>
+      )}
+
+      {/* Feature hints */}
+      {!loading && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-3xl px-4 mt-2">
+          {[
+            { icon: '🔍', label: 'Extracts all details' },
+            { icon: '📖', label: 'Plain language' },
+            { icon: '🌍', label: '10 languages' },
+            { icon: '💌', label: 'Email to yourself' },
+          ].map((f) => (
+            <div key={f.label} className="bg-white rounded-xl p-4 text-center shadow-sm border border-gray-100">
+              <div className="text-2xl mb-1">{f.icon}</div>
+              <p className="text-xs text-gray-500 font-medium">{f.label}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
