@@ -7,6 +7,8 @@ import DoseSchedule from './DoseSchedule'
 import SkipSimulator from './SkipSimulator'
 import LanguageSwitcher from './LanguageSwitcher'
 import ReminderForm from './ReminderForm'
+import FoodInteractionCards from './FoodInteractionCards'
+import SymptomChecker from './SymptomChecker'
 
 interface Props {
   card: MedCardData
@@ -93,6 +95,16 @@ export default function MedCard({ card, onUpdate }: Props) {
           )}
         </div>
       )}
+
+      {/* Food interactions + Symptom checker */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="card">
+          <FoodInteractionCards drugName={card.drugName} />
+        </div>
+        <div className="card">
+          <SymptomChecker drugName={card.drugName} />
+        </div>
+      </div>
 
       {/* Skip simulator + email */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

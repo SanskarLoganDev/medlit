@@ -50,3 +50,45 @@ Translate and rewrite all text fields into ${language} at a Grade 5 reading leve
 Return ONLY valid JSON with the exact same schema — no explanation, no markdown, no code fences.
 Keep the same "flags" structure but translate the text values.
 Never use medical jargon. Keep sentences under 15 words each.`
+
+export const getFoodInteractionsPrompt = (drugName: string) =>
+  `You are a pharmacist. List the most important food and drink interactions for ${drugName}.
+Return ONLY valid JSON — no explanation, no markdown, no code fences.
+
+Schema:
+[
+  {
+    "food": "name of food or drink (1-3 words)",
+    "icon": "single emoji representing this food",
+    "reason": "plain English reason under 15 words why it is a problem",
+    "severity": "avoid | caution | timing"
+  }
+]
+
+severity meanings:
+- "avoid": never eat/drink this while on the medication
+- "caution": limit or be careful with this
+- "timing": okay to have, but not at the same time as the medication
+
+Return 3 to 6 interactions. If there are no known food interactions, return an empty array [].
+Only include specific food/drink interactions — no general advice.`
+
+export const getSymptomCheckPrompt = (drugName: string, symptom: string) =>
+  `You are a pharmacist. A patient taking ${drugName} says they feel: "${symptom}".
+Determine if this is a known side effect and how serious it is.
+Return ONLY valid JSON — no explanation, no markdown, no code fences.
+
+Schema:
+{
+  "isKnownSideEffect": true | false,
+  "severity": "normal | monitor | seek-help",
+  "explanation": "1-2 plain English sentences explaining if this is expected",
+  "advice": "1-2 plain English sentences on what the patient should do next"
+}
+
+severity meanings:
+- "normal": common, mild side effect — nothing to worry about
+- "monitor": worth watching — contact doctor if it gets worse
+- "seek-help": stop taking and seek medical help immediately
+
+Keep all text at Grade 5 reading level. Never say "consult your doctor" as the only advice.`

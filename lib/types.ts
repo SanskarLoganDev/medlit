@@ -26,3 +26,17 @@ export interface ReminderPayload {
   email: string
   card: MedCardData
 }
+
+export interface FoodInteraction {
+  food: string
+  icon: string
+  reason: string
+  severity: 'avoid' | 'caution' | 'timing'
+}
+
+export interface SymptomCheckResult {
+  isKnownSideEffect: boolean
+  severity: 'normal' | 'monitor' | 'seek-help'
+  explanation: string
+  advice: string
+}

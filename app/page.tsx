@@ -48,7 +48,10 @@ export default function HomePage() {
         return
       }
 
-      sessionStorage.setItem('medCard', JSON.stringify(cardData))
+      const existing = sessionStorage.getItem('medCards')
+      const cards = existing ? JSON.parse(existing) : []
+      cards.push(cardData)
+      sessionStorage.setItem('medCards', JSON.stringify(cards))
       router.push('/card')
     } catch {
       setError('Something went wrong. Please try again.')
